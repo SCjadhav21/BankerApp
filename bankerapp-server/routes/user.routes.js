@@ -2,14 +2,12 @@ const express = require("express");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { UserModel } = require("../models/user.model");
-
-const app = express();
-app.use(express.json());
+const { AdminAuthentication } = require("../middelware/adminauth");
 
 const UserRoutes = express.Router();
 
 UserRoutes.post("/register", async (req, res) => {
-  let { name, email, mobile, password, address } = req.body;
+  let { name, email, password } = req.body;
   try {
     const users = await UserModel.find({ email });
     if (users.length > 0) {
@@ -17,7 +15,7 @@ UserRoutes.post("/register", async (req, res) => {
     } else {
       bcrypt.hash(password, 5, async (err, hash) => {
         if (err) {
-          res.status(400).send(err);
+          res.status(401).send(err);
         } else {
           const user = new UserModel({
             name,
@@ -30,7 +28,7 @@ UserRoutes.post("/register", async (req, res) => {
       });
     }
   } catch (err) {
-    res.status(400).send(err);
+    res.status(500).send(err);
   }
 });
 
@@ -42,7 +40,7 @@ UserRoutes.post("/login", async (req, res) => {
     if (user) {
       bcrypt.compare(password, user.password, (err, result) => {
         if (err) {
-          res.status(400).send(err);
+          res.status(401).send(err);
         } else if (result) {
           const token = jwt.sign({ userId: user._id }, process.env.key);
           res.status(200).send({
@@ -58,7 +56,16 @@ UserRoutes.post("/login", async (req, res) => {
       res.status(401).send("Wrong Credntials");
     }
   } catch (err) {
-    res.status(400).send(err);
+    res.status(500).send(err);
+  }
+});
+
+UserRoutes.get("/all", AdminAuthentication, async (req, res) => {
+  try {
+    const users = await UserModel.find();
+    res.status(200).send(users);
+  } catch (e) {
+    res.status(500).send(e.message);
   }
 });
 

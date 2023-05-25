@@ -12,7 +12,6 @@ import {
   MenuList,
   MenuItem,
   IconButton,
-  useToast,
   Center,
 } from "@chakra-ui/react";
 import { AddContext } from "../context/AppContext";
@@ -20,7 +19,6 @@ import { AddContext } from "../context/AppContext";
 const Navbar = () => {
   const { state, setState } = React.useContext(AddContext);
 
-  const toast = useToast();
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -33,7 +31,7 @@ const Navbar = () => {
     <Box className="nav">
       <Heading>
         <span className="white">SJ</span>
-        <span className="black">_Digital</span>
+        <span className="black">_Banker</span>
       </Heading>
       {state.token && (
         <Box className="right-end">

@@ -1,22 +1,16 @@
 const mongoose = require("mongoose");
 
-const cartSchema = new mongoose.Schema(
+const transactionSchema = new mongoose.Schema(
   {
-    balance: { type: Number, required: true },
-    transactionRecords: {
-      withdraw: [
-        {
-          date: { type: Date, default: new Date() },
-          amount: { type: Number },
-        },
-      ],
-      deposite: [
-        {
-          date: { type: Date, default: new Date() },
-          amount: { type: Number },
-        },
-      ],
-    },
+    balance: { type: Number, required: true, default: 0 },
+    transactionRecords: [
+      {
+        type: { type: String, required: true },
+        date: { type: Date, default: new Date() },
+        amount: { type: Number },
+      },
+    ],
+
     userId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "user",
@@ -27,8 +21,10 @@ const cartSchema = new mongoose.Schema(
     timestamps: true,
   }
 );
+const TransactionModel = mongoose.model("transaction", transactionSchema);
 
-module.exports = mongoose.model("cart", cartSchema);
+module.exports = { TransactionModel };
+
 /*
 Transactions Page: Login should take the customer to the transactions 
 page to see all of its transaction records along with Deposit and 
