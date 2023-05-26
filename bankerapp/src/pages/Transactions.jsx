@@ -27,7 +27,7 @@ import { CheckIcon } from "@chakra-ui/icons";
 let userData = (token) => {
   return axios({
     method: "GET",
-    url: "http://localhost:4500/trans/",
+    url: "https://good-pear-vulture-toga.cyclic.app/trans/",
     headers: {
       Authorization: token,
     },
@@ -37,7 +37,7 @@ let userData = (token) => {
 let MakeTransaction = (token, amount, type) => {
   return axios({
     method: "POST",
-    url: `http://localhost:4500/trans/${type}`,
+    url: `https://good-pear-vulture-toga.cyclic.app/trans/${type}`,
     data: { amount: amount },
     headers: {
       Authorization: token,

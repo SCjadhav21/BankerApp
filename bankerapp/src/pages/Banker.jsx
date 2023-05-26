@@ -28,7 +28,7 @@ import {
 let userData = (token) => {
   return axios({
     method: "GET",
-    url: "http://localhost:4500/user/alluser",
+    url: "https://good-pear-vulture-toga.cyclic.app/user/alluser",
     headers: {
       Authorization: token,
     },
@@ -38,7 +38,7 @@ let userData = (token) => {
 let TransactionDetails = (token, id) => {
   return axios({
     method: "GET",
-    url: `http://localhost:4500/trans/transaction/${id}`,
+    url: `https://good-pear-vulture-toga.cyclic.app/trans/transaction/${id}`,
     headers: {
       Authorization: token,
     },

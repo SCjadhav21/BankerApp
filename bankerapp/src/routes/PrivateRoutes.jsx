@@ -27,7 +27,7 @@ export default PrivateRoute;
 let checkAuth = (token) => {
   return axios({
     method: "GET",
-    url: "http://localhost:4500/user/checkAuth",
+    url: "https://good-pear-vulture-toga.cyclic.app/user/checkAuth",
     headers: {
       Authorization: token,
     },

@@ -44,7 +44,7 @@ const Login = () => {
   const handelSubmit = (e) => {
     e.preventDefault();
     if (data.email && data.password) {
-      axios("http://localhost:4500/user/login", {
+      axios("https://good-pear-vulture-toga.cyclic.app/user/login", {
         method: "POST",
         data: data,
         headers: {
