@@ -15,7 +15,7 @@ UserRoutes.post("/register", async (req, res) => {
     } else {
       bcrypt.hash(password, 5, async (err, hash) => {
         if (err) {
-          res.status(401).send(err);
+          res.status(500).send(err);
         } else {
           const user = new UserModel({
             name,
@@ -40,7 +40,7 @@ UserRoutes.post("/login", async (req, res) => {
     if (user) {
       bcrypt.compare(password, user.password, (err, result) => {
         if (err) {
-          res.status(401).send(err);
+          res.status(500).send(err);
         } else if (result) {
           const token = jwt.sign({ userId: user._id }, process.env.key);
           res.status(200).send({
@@ -49,21 +49,29 @@ UserRoutes.post("/login", async (req, res) => {
             token: token,
           });
         } else {
-          res.status(401).send("Wrong Credntials");
+          res.status(200).send("Wrong Credntials");
         }
       });
     } else {
-      res.status(401).send("Wrong Credntials");
+      res.status(200).send("Wrong Credntials");
     }
   } catch (err) {
     res.status(500).send(err);
   }
 });
 
-UserRoutes.get("/all", AdminAuthentication, async (req, res) => {
+UserRoutes.get("/alluser", AdminAuthentication, async (req, res) => {
   try {
-    const users = await UserModel.find();
+    const users = await UserModel.find({});
     res.status(200).send(users);
+  } catch (e) {
+    res.status(500).send(e.message);
+  }
+});
+
+UserRoutes.get("/checkAuth", AdminAuthentication, async (req, res) => {
+  try {
+    res.status(200).send("Authorised");
   } catch (e) {
     res.status(500).send(e.message);
   }

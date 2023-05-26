@@ -6,7 +6,7 @@ const Authentication = (req, res, next) => {
 
   jwt.verify(token, process.env.key, async (err, result) => {
     if (err) {
-      res.status(401).send(err);
+      res.status(500).send(err);
     } else {
       req.body.userId = result.userId;
       next();

@@ -30,7 +30,7 @@ TransactionRoutes.post("/:type", Authentication, async (req, res) => {
           {
             type: "deposite",
             date: new Date(),
-            amount: 0,
+            amount: amount,
           },
         ],
         userId: userId,

@@ -7,7 +7,7 @@ const AdminAuthentication = async (req, res, next) => {
 
   jwt.verify(token, process.env.key, async (err, result) => {
     if (err) {
-      res.status(401).send(err);
+      res.status(500).send(err);
     } else {
       const users = await UserModel.findOne({ _id: result.userId });
 
@@ -15,7 +15,7 @@ const AdminAuthentication = async (req, res, next) => {
         req.body.userId = result.userId;
         next();
       } else {
-        res.status(401).send("Not Authorised");
+        res.status(200).json("Not Authorised");
       }
     }
   });
