@@ -1,8 +1,10 @@
 import React from "react";
 import "./navbar.css";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FaRegUserCircle } from "react-icons/fa";
 import { FiLogOut } from "react-icons/fi";
+import { AiOutlineTransaction } from "react-icons/ai";
+import { GrMenu, GrUserAdmin } from "react-icons/gr";
 
 import {
   Box,
@@ -33,6 +35,30 @@ const Navbar = () => {
         <span className="white">SJ</span>
         <span className="black">_Banker</span>
       </Heading>
+      {state.token && (
+        <Box margin="0px 20px 0px auto">
+          <Menu>
+            <MenuButton
+              as={IconButton}
+              aria-label="Options"
+              icon={<GrMenu className="icon" />}
+              variant="solid"
+            />
+            <MenuList>
+              <Link to="/banker">
+                <MenuItem icon={<GrUserAdmin className="icon" />}>
+                  Banker Page
+                </MenuItem>
+              </Link>
+              <Link to="/">
+                <MenuItem icon={<AiOutlineTransaction className="icon" />}>
+                  Transaction Page
+                </MenuItem>
+              </Link>
+            </MenuList>
+          </Menu>
+        </Box>
+      )}
       {state.token && (
         <Box className="right-end">
           <Menu>

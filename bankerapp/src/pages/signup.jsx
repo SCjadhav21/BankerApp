@@ -41,7 +41,7 @@ const Signup = () => {
 
   const handelSubmit = (e) => {
     e.preventDefault();
-    console.log(data);
+
     if (data.name && data.password && data.email) {
       if (data.password.length < 6) {
         alert("password is too stort");

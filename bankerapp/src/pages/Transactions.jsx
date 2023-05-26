@@ -1,18 +1,19 @@
-import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
 import { AddContext } from "../context/AppContext";
+import axios from "axios";
+
 import {
-  Alert,
   Box,
   Button,
   Heading,
-  Image,
   Img,
   Input,
   InputGroup,
   InputLeftElement,
   InputRightElement,
   Show,
+  Skeleton,
+  Stack,
   Table,
   TableContainer,
   Tbody,
@@ -46,14 +47,18 @@ let MakeTransaction = (token, amount, type) => {
 
 const Transactions = () => {
   const { state, setState } = useContext(AddContext);
+
+  const [getData, setGetData] = useState(false);
   const [data, setData] = useState("");
   const [value, setValue] = useState("");
-  const [getData, setGetData] = useState(false);
   const [show, setShow] = useState("");
+
   useEffect(() => {
+    setState({ ...state, loading: true });
     userData(state.token)
       .then((res) => setData(res.data))
-      .catch((err) => console.log(err));
+      .catch((err) => console.log(err))
+      .finally(() => setState({ ...state, loading: false }));
   }, [getData]);
 
   const HandelTransaction = (type) => {
@@ -86,7 +91,7 @@ const Transactions = () => {
     setShow("");
   };
 
-  let amt;
+  let amt = 0;
   const TotalAmount = (amount, type) => {
     if (amount == "" || amount == undefined) {
       amt = 0;
@@ -119,6 +124,30 @@ const Transactions = () => {
 
     return `${hour}:${minute}:${second}`;
   };
+
+  if (state.loading) {
+    return (
+      <Stack>
+        <Skeleton height="20px" />
+        <Skeleton height="20px" />
+        <Skeleton height="20px" />
+        <Skeleton height="20px" />
+        <Skeleton height="20px" />
+        <Skeleton height="20px" />
+        <Skeleton height="20px" />
+        <Skeleton height="20px" />
+        <Skeleton height="20px" />
+        <Skeleton height="20px" />
+        <Skeleton height="20px" />
+        <Skeleton height="20px" />
+        <Skeleton height="20px" />
+        <Skeleton height="20px" />
+        <Skeleton height="20px" />
+        <Skeleton height="20px" />
+        <Skeleton height="20px" />
+      </Stack>
+    );
+  }
 
   return (
     <div>

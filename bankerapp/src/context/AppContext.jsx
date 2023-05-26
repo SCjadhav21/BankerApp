@@ -6,7 +6,7 @@ const ContextProvider = ({ children }) => {
   let user = JSON.parse(localStorage.getItem("user"));
   const [state, setState] = useState({
     userName: user?.name || "",
-    token: user?.name || "",
+    token: user?.token || "",
     loading: false,
   });
 

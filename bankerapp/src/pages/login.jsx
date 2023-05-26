@@ -52,8 +52,7 @@ const Login = () => {
         },
       })
         .then((res) => {
-          console.log(res);
-          if (res.status === 200) {
+          if (res.status === 200 && res.data.msg == "Login Successfull") {
             toast({
               title: "Login Successfull",
               description: "You've Logged In your account.",

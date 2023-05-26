@@ -4,8 +4,9 @@ import { Box } from "@chakra-ui/react";
 
 import Signup from "../pages/signup";
 import Login from "../pages/login";
-import PrivateRoute from "./PrivateRoutes";
+import PrivateRoute, { PrivateRouteAdmin } from "./PrivateRoutes";
 import Transactions from "../pages/Transactions";
+import Banker from "../pages/Banker";
 
 const AllRoutes = () => {
   return (
@@ -13,6 +14,14 @@ const AllRoutes = () => {
       <Routes>
         <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login />} />
+        <Route
+          path="/banker"
+          element={
+            <PrivateRouteAdmin>
+              <Banker />
+            </PrivateRouteAdmin>
+          }
+        />
         <Route
           path="/"
           element={
