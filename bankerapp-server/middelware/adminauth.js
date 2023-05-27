@@ -10,7 +10,7 @@ const AdminAuthentication = async (req, res, next) => {
       res.status(500).send(err);
     } else {
       const users = await UserModel.findOne({ _id: result.userId });
-
+      // check userType
       if (users.userType == process.env.key) {
         req.body.userId = result.userId;
         next();
