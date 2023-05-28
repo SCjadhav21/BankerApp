@@ -4,7 +4,7 @@ frontend deployed url : https://bankerapp.vercel.app/
 <br>
 backend deployed url : https://good-pear-vulture-toga.cyclic.app/
 
-frontend text tags : Html, Css, javaScript, React
+frontend text tags : Html, Css, javaScript, React, Chakra-UI, React-Router, Context-Api
 <br>
 backend text tags : nodejs, expressjs, mongoDB
 <br>
