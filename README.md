@@ -10,13 +10,6 @@ backend text tags : nodejs, expressjs, mongoDB
 <br>
 for authentication : jsonwebtoken npm and bcrypt npm pakages
 
-# For Banker page
-# Admin credentials
-Email : admin@banker.com
-<br>
-Password : admin@1234
-# -------------------
-
 To run application locally :
 <br>
 (1) open project in vs Code
