@@ -31,6 +31,7 @@ const Login = () => {
   });
 
   const [show, setShow] = React.useState(false);
+  const [loading, setLoading] = useState(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const handleClick = () => setShow(!show);
@@ -43,6 +44,7 @@ const Login = () => {
 
   const handelSubmit = (e) => {
     e.preventDefault();
+    setLoading(true);
     if (data.email && data.password) {
       axios("https://good-pear-vulture-toga.cyclic.app/user/login", {
         method: "POST",
@@ -62,13 +64,20 @@ const Login = () => {
             });
             localStorage.setItem(
               "user",
-              JSON.stringify({ name: res.data.name, token: res.data.token })
+              JSON.stringify({
+                name: res.data.name,
+                token: res.data.token,
+                userType: res.data.userType,
+              })
             );
             setState({
               ...state,
               token: res.data.token,
               userName: res.data.name,
+              userType: res.data.userType,
             });
+
+            setLoading(false);
           } else {
             toast({
               title: "Wrong Credentials",
@@ -77,6 +86,7 @@ const Login = () => {
               duration: 3000,
               isClosable: true,
             });
+            setLoading(false);
           }
         })
         .catch((err) => {
@@ -88,6 +98,7 @@ const Login = () => {
             duration: 3000,
             isClosable: true,
           });
+          setLoading(false);
         });
     } else {
       toast({
@@ -97,6 +108,7 @@ const Login = () => {
         duration: 3000,
         isClosable: true,
       });
+      setLoading(false);
     }
   };
 
@@ -104,8 +116,11 @@ const Login = () => {
     onOpen();
   }, []);
 
-  if (state.token) {
+  if (state.userType == "customer") {
     return <Navigate to="/" />;
+  }
+  if (state.userType == "banker") {
+    return <Navigate to="/banker" />;
   }
   return (
     <>
@@ -197,25 +212,27 @@ const Login = () => {
                     </InputRightElement>
                   </InputGroup>
 
-                  <Input
+                  <FormLabel></FormLabel>
+                  <Button
                     textAlign="center "
                     fontSize="16px"
                     fontWeight="500"
                     borderRadius="3px"
                     backgroundClip="padding-box"
-                    border="none"
+                    border="2px solid #FF7558"
                     outline="none"
-                    width="100%"
                     padding="auto 20px"
-                    display="inline-block"
                     whiteSpace="nowrap"
                     bgGradient="linear(0deg,#ff934b 0%,#ff5e62 100%)"
-                    w="50%"
                     type="submit"
-                    placeholder="Login"
                     color="#fff"
-                    m="10px 0px"
-                  />
+                    isLoading={loading}
+                    loadingText="Loading"
+                    colorScheme="#FF7558"
+                    spinnerPlacement="end"
+                  >
+                    Login
+                  </Button>
                 </form>
               </Box>
             </Box>

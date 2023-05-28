@@ -5,6 +5,7 @@ import axios from "axios";
 import {
   Box,
   Button,
+  Center,
   Heading,
   Img,
   Input,
@@ -21,6 +22,7 @@ import {
   Th,
   Thead,
   Tr,
+  useToast,
 } from "@chakra-ui/react";
 import { CheckIcon } from "@chakra-ui/icons";
 
@@ -47,7 +49,7 @@ let MakeTransaction = (token, amount, type) => {
 
 const Transactions = () => {
   const { state, setState } = useContext(AddContext);
-
+  const toast = useToast();
   const [getData, setGetData] = useState(false);
   const [data, setData] = useState("");
   const [value, setValue] = useState("");
@@ -56,7 +58,9 @@ const Transactions = () => {
   useEffect(() => {
     setState({ ...state, loading: true });
     userData(state.token)
-      .then((res) => setData(res.data))
+      .then((res) => {
+        setData(res.data);
+      })
       .catch((err) => console.log(err))
       .finally(() => setState({ ...state, loading: false }));
   }, [getData]);
@@ -74,8 +78,34 @@ const Transactions = () => {
         .then((res) => {
           setValue("");
           setGetData(!getData);
+
+          if (type == "withdraw") {
+            toast({
+              title: `Transactions successfull`,
+              description: `Rs ${value} debited from your account`,
+              status: "success",
+              duration: 4000,
+              isClosable: true,
+            });
+          } else {
+            toast({
+              title: `Transactions successfull`,
+              description: `Rs ${value} credited to your account`,
+              status: "success",
+              duration: 4000,
+              isClosable: true,
+            });
+          }
         })
-        .catch((err) => console.log(err));
+        .catch((err) =>
+          toast({
+            title: "Transition failed",
+            description: "Error occurred while transitioning",
+            status: "error",
+            duration: 3000,
+            isClosable: true,
+          })
+        );
     }
   };
 
@@ -124,6 +154,12 @@ const Transactions = () => {
 
     return `${hour}:${minute}:${second}`;
   };
+
+  useEffect(() => {
+    if (show == "Img") {
+      handelShow();
+    }
+  }, [data]);
 
   if (state.loading) {
     return (
@@ -235,7 +271,10 @@ const Transactions = () => {
       )}
 
       {show == "Img" ? (
-        <Img src="https://cdn.dribbble.com/users/736391/screenshots/4538317/emptystate.jpg" />
+        <Center>
+          {" "}
+          <Img src="https://cdn.dribbble.com/users/736391/screenshots/4538317/emptystate.jpg" />
+        </Center>
       ) : (
         ""
       )}

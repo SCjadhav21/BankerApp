@@ -58,7 +58,7 @@ export const PrivateRouteAdmin = ({ children }) => {
           isClosable: true,
           duration: 5000,
           title: "Not Authorised!",
-          description: "Please login as Administrator",
+          description: "Please login with banker credentials",
         });
         return navigate("/login");
       }

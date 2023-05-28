@@ -15,6 +15,7 @@ import {
   InputRightElement,
   InputGroup,
   useToast,
+  Select,
 } from "@chakra-ui/react";
 import { useEffect } from "react";
 
@@ -24,8 +25,10 @@ const Signup = () => {
   const [data, setData] = useState({
     name: "",
     email: "",
+    userType: "",
     password: "",
   });
+  const [loading, setLoading] = useState(false);
   const [show, setShow] = React.useState(false);
   const [home, setHome] = React.useState(false);
   const [navigate, setNavigate] = useState(false);
@@ -41,10 +44,11 @@ const Signup = () => {
 
   const handelSubmit = (e) => {
     e.preventDefault();
-
-    if (data.name && data.password && data.email) {
+    setLoading(true);
+    if (data.name && data.password && data.email && data.userType) {
       if (data.password.length < 6) {
         alert("password is too stort");
+        setLoading(false);
       } else {
         axios("https://good-pear-vulture-toga.cyclic.app/user/register", {
           method: "POST",
@@ -63,6 +67,7 @@ const Signup = () => {
                 isClosable: true,
               });
               setNavigate(true);
+              setLoading(false);
             } else {
               toast({
                 title: "Acount has been Already Regestered.",
@@ -72,6 +77,7 @@ const Signup = () => {
 
                 isClosable: true,
               });
+              setLoading(false);
             }
           })
           .catch((err) => {
@@ -84,6 +90,7 @@ const Signup = () => {
 
               isClosable: true,
             });
+            setLoading(false);
           });
       }
     } else {
@@ -94,6 +101,7 @@ const Signup = () => {
         duration: 3000,
         isClosable: true,
       });
+      setLoading(false);
     }
   };
 
@@ -168,6 +176,26 @@ const Signup = () => {
                     type="text"
                     placeholder="Enter Name"
                   />
+                  <FormLabel
+                    borderBottom="1px solid #ddd"
+                    width="100%"
+                    fontSize="14px"
+                    padding="6px 0px"
+                    color="#212121"
+                  >
+                    User Type
+                  </FormLabel>
+                  <Select
+                    name="userType"
+                    onChange={handleChange}
+                    value={data.userType}
+                    isRequired
+                    type="text"
+                    placeholder="Select Type"
+                  >
+                    <option value="customer">Customer</option>
+                    <option value="banker">Banker</option>
+                  </Select>
 
                   <FormLabel
                     borderBottom="1px solid #ddd"
@@ -214,25 +242,27 @@ const Signup = () => {
                     </InputRightElement>
                   </InputGroup>
 
-                  <Input
+                  <FormLabel></FormLabel>
+                  <Button
                     textAlign="center "
                     fontSize="16px"
                     fontWeight="500"
                     borderRadius="3px"
                     backgroundClip="padding-box"
-                    border="none"
+                    border="2px solid #FF7558"
                     outline="none"
-                    width="100%"
                     padding="auto 20px"
-                    display="inline-block"
                     whiteSpace="nowrap"
                     bgGradient="linear(0deg,#ff934b 0%,#ff5e62 100%)"
-                    w="50%"
                     type="submit"
-                    placeContent="Register"
                     color="#fff"
-                    m="10px 0px"
-                  />
+                    isLoading={loading}
+                    loadingText="Loading"
+                    colorScheme="#FF7558"
+                    spinnerPlacement="end"
+                  >
+                    Register
+                  </Button>
                 </form>
               </Box>
             </Box>

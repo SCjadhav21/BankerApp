@@ -1,4 +1,4 @@
-import React, { useState, createContext, useEffect } from "react";
+import React, { useState, createContext } from "react";
 
 export const AddContext = createContext();
 
@@ -7,6 +7,7 @@ const ContextProvider = ({ children }) => {
   const [state, setState] = useState({
     userName: user?.name || "",
     token: user?.token || "",
+    userType: user?.userType || "",
     loading: false,
   });
 
